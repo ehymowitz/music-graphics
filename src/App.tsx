@@ -1,26 +1,25 @@
-import React, { useEffect, useRef } from "react";
-import p5 from "p5";
+import React, { Suspense, useEffect, useState } from "react";
+const Sketch = React.lazy(() => import("./Sketch"));
 
 function App() {
-  const p5Ref = useRef<any>();
+  const [showSketch, setShowSketch] = useState(false);
 
-  useEffect(() => {
-    const p5Sketch = new p5(sketch, p5Ref.current);
-    p5Sketch.remove();
-  }, [p5Ref]);
+  const loadingText = "Click to start";
 
-  const sketch = (p: p5) => {
-    p.setup = () => {
-      p.createCanvas(p.windowWidth, p.windowHeight);
-      p.frameRate(60);
-    };
-
-    p.draw = () => {
-      p.background(5, 23, 23);
-    };
-  };
-
-  return <div ref={p5Ref}></div>;
+  return (
+    <div
+      onClick={() => setShowSketch(true)}
+      style={{ height: "100vh", width: "100vw" }}
+    >
+      {showSketch ? (
+        <Suspense fallback={<div>{loadingText}</div>}>
+          <Sketch />
+        </Suspense>
+      ) : (
+        <div>{loadingText}</div>
+      )}
+    </div>
+  );
 }
 
 export default App;
