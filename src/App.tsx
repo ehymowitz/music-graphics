@@ -1,22 +1,40 @@
 import React, { Suspense, useEffect, useState } from "react";
-const Sketch = React.lazy(() => import("./Sketch"));
+import Onboarding from "./components/onboarding";
+const BouncingBall = React.lazy(() => import("./sketches/bouncingBall"));
+
+export enum Sketches {
+  noSketch = "",
+  bouncingBall = "Bouncing Ball",
+}
 
 function App() {
-  const [showSketch, setShowSketch] = useState(false);
+  const [sketchToShow, setSketch] = useState<Sketches>(Sketches.noSketch);
 
-  const loadingText = "Click to start";
+  const determineSketch = () => {
+    switch (sketchToShow) {
+      case Sketches.bouncingBall:
+        return <BouncingBall />;
+      default:
+        return;
+    }
+  };
 
   return (
     <div
-      onClick={() => setShowSketch(true)}
-      style={{ height: "100vh", width: "100vw" }}
+      style={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
-      {showSketch ? (
-        <Suspense fallback={<div>{loadingText}</div>}>
-          <Sketch />
+      {sketchToShow ? (
+        <Suspense fallback={<Onboarding setSketch={setSketch} />}>
+          {determineSketch()}
         </Suspense>
       ) : (
-        <div>{loadingText}</div>
+        <Onboarding setSketch={setSketch} />
       )}
     </div>
   );
