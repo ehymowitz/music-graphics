@@ -3,7 +3,7 @@ import { ReactP5Wrapper } from "react-p5-wrapper";
 import "./utils/sound";
 import p5, { AudioIn, FFT } from "p5";
 import "p5/lib/addons/p5.sound";
-import { FreqBall } from "./components/freqBall";
+import FreqBall from "./components/freqBall";
 
 function BouncingBall() {
   const sketch = (p: p5) => {

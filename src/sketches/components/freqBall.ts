@@ -1,6 +1,6 @@
 import p5 from "p5";
 
-export class FreqBall {
+export default class FreqBall {
   p: p5;
   xCoord: number;
   freq: number;
@@ -11,7 +11,7 @@ export class FreqBall {
     this.freq = f;
   }
 
-  draw(vol: number, spec: number[]) {
+  draw = (vol: number, spec: number[]) => {
     this.p.ellipse(this.xCoord, this.p.height / 1.5 - vol, spec[this.freq] / 2);
-  }
+  };
 }

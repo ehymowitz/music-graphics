@@ -1,10 +1,12 @@
 import React, { Suspense, useEffect, useState } from "react";
 import Onboarding from "./components/onboarding";
 const BouncingBall = React.lazy(() => import("./sketches/bouncingBall"));
+const GameOfLife = React.lazy(() => import("./sketches/gameOfLife"));
 
 export enum Sketches {
   noSketch = "",
   bouncingBall = "Bouncing Ball",
+  gameOfLife = "Game of Life",
 }
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
     switch (sketchToShow) {
       case Sketches.bouncingBall:
         return <BouncingBall />;
+      case Sketches.gameOfLife:
+        return <GameOfLife />;
       default:
         return;
     }
