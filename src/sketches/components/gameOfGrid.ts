@@ -7,14 +7,22 @@ export default class GameOfGrid {
   resolution: number;
   array: number[][];
   secondArray: number[][];
+  lifeFrames: number;
 
-  constructor(p: p5, rows: number, cols: number, resolution: number) {
+  constructor(
+    p: p5,
+    rows: number,
+    cols: number,
+    resolution: number,
+    lifeFrames: number
+  ) {
     this.p = p;
     this.rows = rows;
     this.cols = cols;
     this.resolution = resolution;
     this.array = this.createArray();
     this.secondArray = this.array;
+    this.lifeFrames = lifeFrames;
   }
 
   draw = () => {
@@ -31,6 +39,10 @@ export default class GameOfGrid {
 
         this.p.rect(x, y, this.resolution, this.resolution);
       }
+    }
+
+    if (this.p.frameCount % this.lifeFrames >= this.lifeFrames - 1) {
+      this.array = this.createArray();
     }
 
     this.evolveArray(this.array);
@@ -53,11 +65,13 @@ export default class GameOfGrid {
   };
 
   private evolveArray = (array: number[][]) => {
+    let sum = 0;
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
         const liveNeighbors = this.testNeighbors(i, j);
         const currentValue = array[i][j];
         this.secondArray[i][j] = this.updateAlive(liveNeighbors, currentValue);
+        sum += currentValue;
       }
     }
 

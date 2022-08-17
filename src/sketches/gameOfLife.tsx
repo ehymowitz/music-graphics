@@ -4,7 +4,9 @@ import p5 from "p5";
 import GameOfGrid from "./components/gameOfGrid";
 
 function GameOfLife() {
-  const resolution = 10;
+  const resolution = 20;
+  const lifeFrames = 200;
+  const frameRate = 5;
   let grid: GameOfGrid;
 
   const sketch = (p: p5) => {
@@ -17,10 +19,11 @@ function GameOfLife() {
         p,
         Math.floor(height / resolution),
         Math.floor(width / resolution),
-        resolution
+        resolution,
+        lifeFrames
       );
 
-      p.frameRate(5);
+      // p.frameRate(frameRate);
     };
 
     p.draw = () => {
