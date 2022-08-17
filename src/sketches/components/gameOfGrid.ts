@@ -1,11 +1,12 @@
 import p5 from "p5";
 
-export default class TwoDimGrid {
+export default class GameOfGrid {
   p: p5;
   rows: number;
   cols: number;
   resolution: number;
   array: number[][];
+  secondArray: number[][];
 
   constructor(p: p5, rows: number, cols: number, resolution: number) {
     this.p = p;
@@ -13,6 +14,7 @@ export default class TwoDimGrid {
     this.cols = cols;
     this.resolution = resolution;
     this.array = this.createArray();
+    this.secondArray = this.array;
   }
 
   draw = () => {
@@ -27,7 +29,7 @@ export default class TwoDimGrid {
           this.p.fill(0);
         }
 
-        this.p.rect(x, y, this.resolution - 1, this.resolution - 1);
+        this.p.rect(x, y, this.resolution, this.resolution);
       }
     }
 
@@ -51,25 +53,25 @@ export default class TwoDimGrid {
   };
 
   private evolveArray = (array: number[][]) => {
-    const newArray = array;
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
         const liveNeighbors = this.testNeighbors(i, j);
         const currentValue = array[i][j];
-        if (
-          currentValue === 1 &&
-          (liveNeighbors === 2 || liveNeighbors === 3)
-        ) {
-          newArray[i][j] = 1;
-        } else if (currentValue === 0 && liveNeighbors === 3) {
-          newArray[i][j] = 1;
-        } else {
-          newArray[i][j] = 0;
-        }
+        this.secondArray[i][j] = this.updateAlive(liveNeighbors, currentValue);
       }
     }
 
-    this.array = newArray;
+    this.array = this.secondArray;
+  };
+
+  private updateAlive = (neighbors: number, currentValue: number) => {
+    if (currentValue === 1 && (neighbors === 2 || neighbors === 3)) {
+      return 1;
+    } else if (currentValue === 0 && neighbors === 3) {
+      return 1;
+    } else {
+      return 0;
+    }
   };
 
   private testNeighbors = (x: number, y: number) => {
@@ -78,8 +80,8 @@ export default class TwoDimGrid {
     for (let i = -1; i < 2; i++) {
       for (let j = -1; j < 2; j++) {
         liveNeighbors +=
-          this.array[(x + i + this.rows) % this.rows][
-            (y + j + this.cols) % this.cols
+          this.array[(y + i + this.rows) % this.rows][
+            (x + j + this.cols) % this.cols
           ];
       }
     }

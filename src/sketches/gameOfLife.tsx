@@ -1,22 +1,26 @@
 import React from "react";
 import { ReactP5Wrapper } from "react-p5-wrapper";
 import p5 from "p5";
-import TwoDimGrid from "./components/TwoDimGrid";
+import GameOfGrid from "./components/gameOfGrid";
 
 function GameOfLife() {
   const resolution = 10;
-  let grid: TwoDimGrid;
+  let grid: GameOfGrid;
 
   const sketch = (p: p5) => {
     p.setup = () => {
-      p.createCanvas(p.windowWidth, p.windowHeight);
+      const width = p.windowWidth;
+      const height = p.windowHeight;
+      p.createCanvas(width, height);
 
-      grid = new TwoDimGrid(
+      grid = new GameOfGrid(
         p,
-        Math.floor(p.windowHeight / resolution),
-        Math.floor(p.windowWidth / resolution),
+        Math.floor(height / resolution),
+        Math.floor(width / resolution),
         resolution
       );
+
+      p.frameRate(5);
     };
 
     p.draw = () => {
