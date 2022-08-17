@@ -56,7 +56,7 @@ export default class GameOfGrid {
 
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
-        grid[i][j] = Math.floor(Math.random() * 2);
+        grid[i][j] = Math.floor(Math.random() * 2.5);
       }
     }
     console.table(grid);
@@ -94,8 +94,8 @@ export default class GameOfGrid {
     for (let i = -1; i < 2; i++) {
       for (let j = -1; j < 2; j++) {
         liveNeighbors +=
-          this.array[(y + i + this.rows) % this.rows][
-            (x + j + this.cols) % this.cols
+          this.array[(x + i + this.rows) % this.rows][
+            (y + j + this.cols) % this.cols
           ];
       }
     }
